@@ -30,6 +30,10 @@ express()
       res.send("Error " + err);
     }
   })
+ .post('/db', (req, res) => res.send('Posted by bhagya'))
+
+
+
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
   showTimes = () => {
