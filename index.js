@@ -99,7 +99,6 @@ express()
 			       		res.status(404).send("invalid-ref-id");
 			       	}
 			       	console.log("everything done");
-			       	int x = 
 			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
 			       	//await client.query('SELECT ackID FROM user_info WHERE refID='+req.body.refID);
 		      		results = { 'results': (result) ? result.rows : null};
