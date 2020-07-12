@@ -55,7 +55,7 @@ express()
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
  	 	    	var ref = req.body.refID;
- 	 	    	var amtpaid =  req.body.transaction.amountPaid;
+ 	 	    	int amtpaid =  req.body.transaction.amountPaid;
  	 	    	var paiddate = req.body.transaction.date;
  	 	    	var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
