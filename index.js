@@ -43,6 +43,14 @@ express()
 		      //var mn = req.body.mobileNumber.toString();
 		      const result = await client.query('SELECT customername FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		    //  const results = { 'results': (result) ? result.rows : null};
+		    var jsonData = {};
+    result.forEach(function(column) 
+    {
+        var columnName = column.metadata.colName;
+        jsonData[columnName] = column.value;
+        res.send(jsonData);
+        break;
+    });
 		      res.send(result);
 		      //res.send(req.body.mobileNumber);
 		      client.release();
