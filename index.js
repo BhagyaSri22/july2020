@@ -44,7 +44,7 @@ express()
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
-		      		res.send( result.rows[0].customername); 	
+		      		res.send( result.rows[0].transaction.amountPaid); 	
 		       }
 		      client.release();
 		    } catch (err) {
@@ -61,7 +61,7 @@ express()
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT id FROM user_info WHERE refID='+ref);
+		      const result = await client.query('SELECT id,amountPaid FROM user_info WHERE refID='+ref);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
