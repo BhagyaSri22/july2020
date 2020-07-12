@@ -47,8 +47,8 @@ express()
 		       	    //console.log("complete req");
 		       		//console.log(result.rows[0]);
 		       		console.log("onlt transaction");
-		       		console.log(req.transaction);
-		      		res.send( req.transaction.amountPaid); 	
+		       		console.log(req.body.transaction);
+		      		res.send( req.body.transaction.amountPaid); 	
 		       }
 		      client.release();
 		    } catch (err) {
