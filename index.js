@@ -57,7 +57,7 @@ express()
 		       if(rc==0) {
 		       		res.send("no rows");
 		       }else{
-		      		res.send( results[0].customername ); 	
+		      		res.send( result.rows[0]); 	
 		       }
 		      
 		      //res.send(req.body.mobileNumber);
