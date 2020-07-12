@@ -62,7 +62,7 @@ express()
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
-		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid='+req.body.refID.toString());
+		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid='+req.body.refID);
 		      console.log("after first select statement");
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
