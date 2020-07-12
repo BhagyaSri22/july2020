@@ -35,7 +35,7 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/fetch-bill', async(req, res, next)=>{
+  .post('/api/v1/fetch-bill', async(req, res, next)=>{
  	 	    try {
 		      const client = await pool.connect();
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
