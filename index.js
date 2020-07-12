@@ -40,7 +40,7 @@ express()
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT * FROM user_info WHERE mobileNumber= '''+req.body.mobileNumber+'''');
+		      const result = await client.query('SELECT * FROM user_info WHERE refid='+2);
 		    //  const results = { 'results': (result) ? result.rows : null};
 		      //res.send(results);
 		      res.send(req.body.mobileNumber);
