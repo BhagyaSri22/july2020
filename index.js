@@ -44,7 +44,7 @@ express()
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
-		      		res.send( result.rows[0]); 	
+		      		res.send( result.rows[0].customername); 	
 		       }
 		      client.release();
 		    } catch (err) {
@@ -52,7 +52,7 @@ express()
 		      res.send("post error " + err);
 		    }
   })
-    .post('/payment-update', async(req, res, next)=>{
+    .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
  	 	    	var ref = req.body.refID;
  	 	    	var amtPaid =  req.body.transaction.amountPaid;
@@ -65,12 +65,21 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
-		       		pool.query("UPDATE student SET age = 24 WHERE id = 3", (err, res) => {
-  					console.log(err, res);
-  					pool.end();
-					});
-		       		res.status(404).send("customer-not-found");
+		       		res.status(404).send("invalid-ref-id");
 		       }else{
+		       	//id is null case - first time update
+			       	if(result.rows[0].id == null){
+			       		pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
+	  					console.log(err, res);
+	  					pool.end();
+						});
+						pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
+	  					console.log(err, res);
+	  					pool.end();
+						});
+			       	}
+			       	result = await client.query('SELECT ackID FROM user_info WHERE refID='+ref);
+		      		results = { 'results': (result) ? result.rows : null};
 		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
