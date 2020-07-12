@@ -45,11 +45,7 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		      res.send(
 
-select row_to_json(t)
-from (
-  select mobilenumber, customername from user_info
-) t
-
+select row_to_json(user_info) from user_info
 		      );
 
 		      //res.send(req.body.mobileNumber);
