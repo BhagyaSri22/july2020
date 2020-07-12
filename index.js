@@ -35,29 +35,19 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/pb', async(req, res, next)=>{
+  .post('api/v1/fetch-bill', async(req, res, next)=>{
  		//console.log(req.body);
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      //var mn = req.body.mobileNumber.toString();
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
-/*
-		      console.log(result);
-		      console.log("bpbpbpbpbp");
-		      console.log(results.length);
-		      console.log("actual results");
-		      console.log(results);
-*/
 		       var rc = result.rowCount;
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
 		      		res.send( result.rows[0]); 	
 		       }
-		      
-		      //res.send(req.body.mobileNumber);
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
