@@ -42,9 +42,9 @@ express()
 		      const client = await pool.connect();
 		      //var mn = req.body.mobileNumber.toString();
 		      const result = await client.query('SELECT customername FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
-		    //  const results = { 'results': (result) ? result.rows : null};
+		      const results = { 'results': (result) ? result.rows : null};
 		    var jsonData = {};
-    result.forEach(function(column) 
+    results.forEach(function(column) 
     {
         var columnName = column.metadata.colName;
         jsonData[columnName] = column.value;
