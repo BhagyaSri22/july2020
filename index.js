@@ -31,14 +31,14 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/api/v1/fetch-bill', async(req, res, next)=>{
+  .post('/db', async(req, res, next)=>{
  		//console.log(req.body);
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT * FROM user_info ');//WHERE mobileNumber=req.body.mobileNumber
+		      const result = await client.query('SELECT * FROM user_info');//WHERE mobileNumber=req.body.mobileNumber
 		      const results = { 'results': (result) ? result.rows : null};
-		      res.render('pages/api/v1/fetch-bill', results );
+		      res.render('pages/db', results );
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
