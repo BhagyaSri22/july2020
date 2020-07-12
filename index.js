@@ -35,7 +35,7 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('api/v1/fetch-bill', async(req, res, next)=>{
+  .post('/fetch-bill', async(req, res, next)=>{
  		//console.log(req.body);
  	 	//res.send('Posted by bhagya');
  	 	    try {
