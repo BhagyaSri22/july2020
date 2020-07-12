@@ -53,7 +53,13 @@ express()
 		   //   res.send(result.rows[0]);
 	      //results.forEach(function(r) {  str1.concat(r.customername);str1.concat("end");
 		       //});
-		      res.send(str1);
+		       var rc = result.rowCount;
+		       if(rc==0) {
+		       		res.send("no rows");
+		       }else{
+		      		res.send( results[0].customername ); 	
+		       }
+		      
 		      //res.send(req.body.mobileNumber);
 		      client.release();
 		    } catch (err) {
