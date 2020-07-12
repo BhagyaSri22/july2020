@@ -55,8 +55,8 @@ express()
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
  	 	    	var ref = req.body.refID;
- 	 	    	int amtpaid =  req.body.transaction.amountPaid;
- 	 	    	var paiddate = req.body.transaction.date;
+ 	 	    	//int amtpaid =  req.body.transaction.amountPaid;
+ 	 	    	//var paiddate = req.body.transaction.date;
  	 	    	var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
@@ -70,14 +70,14 @@ express()
 		       	//id is null case - first time update
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
-			       		if(result.rows[0].dueAmount != amtpaid){
+			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
 			       			res.status(400).send("amount-mismatch");
 			       		}
 			       		pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
-						pool.query("UPDATE user_info SET date ="+ paiddate+" WHERE refID ="+ref, (err, res) => {
+						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+ref, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
