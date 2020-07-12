@@ -45,6 +45,7 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		      var str1 = " start ";
 		      var i;
+		      res.send(results.length);
 for (i = 0; i < results.length; i++) {
   str1.concat(results[i].customername);str1.concat("end");
 }
