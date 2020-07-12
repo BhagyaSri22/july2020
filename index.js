@@ -67,7 +67,7 @@ express()
 //var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
-		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid= ANY($1::text[])',[ids]);
+		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid= ANY($1::text)',ref);
 		      console.log("after first select statement");
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
