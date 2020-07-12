@@ -22,7 +22,7 @@ express()
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query('SELECT * FROM test_table');
+      const result = await client.query('SELECT mobileNumber FROM user_info');
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();
@@ -36,7 +36,7 @@ express()
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT mobileNumber FROM user_info');//WHERE mobileNumber=req.body.mobileNumber
+		      const result = await client.query('SELECT * FROM test_table');//WHERE mobileNumber=req.body.mobileNumber
 		      const results = { 'results': (result) ? result.rows : null};
 		      res.render('pages/db', results );
 		      client.release();
