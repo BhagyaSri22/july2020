@@ -57,7 +57,7 @@ express()
  	 	    	var ref = req.body.refID;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
- 	 	    	var tid = req.body.transaction.id;
+ 	 	    	//var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
@@ -73,7 +73,7 @@ express()
 			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
 			       			res.status(400).send("amount-mismatch");
 			       		}
-			       		pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
+			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+ref, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
@@ -83,7 +83,7 @@ express()
 						});
 			       	}
 			       	//id mis match case - provided is diff from already existing
-			       	else if (result.rows[0].id != tid) {
+			       	else if (result.rows[0].id != req.body.transaction.id) {
 			       		res.status(404).send("invalid-ref-id");
 			       	}
 			       	result = await client.query('SELECT ackID FROM user_info WHERE refID='+ref);
