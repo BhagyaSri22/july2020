@@ -61,6 +61,8 @@ express()
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
  	 	    	var ids = [req.body.refID]; 
+ 	 	    	console.log(ids);
+ 	 	    	console.log(ids.length);
 //var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
