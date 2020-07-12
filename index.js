@@ -54,7 +54,8 @@ express()
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
- 	 	    	//var ref = req.body.refID;
+ 	 	    	var ref = req.body.refID;
+ 	 	    	console.log(typeof ref) ;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
  	 	    	//var tid = req.body.transaction.id;
