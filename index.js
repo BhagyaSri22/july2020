@@ -60,9 +60,11 @@ express()
  	 	    	//var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
+ 	 	    	var ids = [req.body.refID]; 
+//var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
-		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid='+req.body.refID);
+		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid= ANY($1::text[])',[ids]);
 		      console.log("after first select statement");
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
