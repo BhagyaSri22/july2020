@@ -45,9 +45,10 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		      res.send(
 
-		      SELECT json_object('name' VALUE customername
-		      	END FORMAT JSON)
-  					FROM user_info WHERE mobileNumber= 9553918783
+select row_to_json(t)
+from (
+  select mobilenumber, customername from user_info
+) t
 
 		      );
 
