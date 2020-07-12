@@ -54,14 +54,14 @@ express()
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
- 	 	    	var ref = req.body.refID;
+ 	 	    	//var ref = req.body.refID;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
  	 	    	//var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT id,dueAmount FROM user_info WHERE refID='+ref);
+		      const result = await client.query('SELECT id,dueAmount FROM user_info WHERE refID='+req.body.refID);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
