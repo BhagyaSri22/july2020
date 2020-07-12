@@ -5,8 +5,10 @@ const path = require('path')
 const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://super:super@localhost:5432/postgresql-clear-13709',
-    ssl: process.env.DATABASE_URL ? true : false
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 express()
@@ -29,7 +31,7 @@ express()
       res.send("Error " + err);
     }
   })
- .post('/api/v1/fetch-bill', async(req, res, next)=>{
+  .post('/api/v1/fetch-bill', async(req, res, next)=>{
  		//console.log(req.body);
  	 	//res.send('Posted by bhagya');
  	 	    try {
@@ -40,12 +42,9 @@ express()
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.send("Error " + err);
+		      res.send("post error " + err);
 		    }
- })
-
-
-
+  })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
   showTimes = () => {
