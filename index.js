@@ -10,6 +10,9 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
+var router = express.Router();
+router.use('/v1', require('./v1'));
+module.exports = router;
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
