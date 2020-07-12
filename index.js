@@ -54,8 +54,8 @@ express()
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
- 	 	    	var ref = req.body.refID;
- 	 	    	console.log(typeof ref+'') ;
+ 	 	    	var ref = String(req.body.refID);
+ 	 	    	console.log(typeof ref) ;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
  	 	    	//var tid = req.body.transaction.id;
@@ -67,7 +67,7 @@ express()
 //var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
-		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid='+String(ref) );
+		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid='+ ''''+ref+'''');
 		      console.log("after first select statement");
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
