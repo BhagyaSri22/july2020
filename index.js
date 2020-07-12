@@ -40,14 +40,10 @@ express()
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT * FROM user_info WHERE mobilenumber='+req.body.mobileNumber);//WHERE mobileNumber=req.body.mobileNumber
-		      const results = { 'results': (result) ? result.rows : null};
-		      res.send(results);
-		      //res.render('pages/postview', results );
-		      console.log("result");
-		      console.log(result);
-		      console.log("--results");
-		      console.log(results);
+		      const result = await client.query('SELECT * FROM user_info');//WHERE mobileNumber=req.body.mobileNumber
+		    //  const results = { 'results': (result) ? result.rows : null};
+		      //res.send(results);
+		      res.send(req.body.mobileNumber);
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
