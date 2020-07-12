@@ -1,18 +1,17 @@
 const cool = require('cool-ascii-faces');
 const express = require('express')
+var bodyParser = require('body-parser')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  connectionString: process.env.DATABASE_URL || 'postgresql://super:super@localhost:5432/postgresql-clear-13709',
+    ssl: process.env.DATABASE_URL ? true : false
 });
-
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
+  .use(bodyParser.json())
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
@@ -30,7 +29,20 @@ express()
       res.send("Error " + err);
     }
   })
- .post('/db', (req, res) => res.send('Posted by bhagya'))
+ .post('/api/v1/fetch-bill', async(req, res, next)=>{
+ 		//console.log(req.body);
+ 	 	//res.send('Posted by bhagya');
+ 	 	    try {
+		      const client = await pool.connect();
+		      const result = await client.query('SELECT * FROM user_info ');//WHERE mobileNumber=req.body.mobileNumber
+		      const results = { 'results': (result) ? result.rows : null};
+		      res.render('pages/api/v1/fetch-bill', results );
+		      client.release();
+		    } catch (err) {
+		      console.error(err);
+		      res.send("Error " + err);
+		    }
+ })
 
 
 
