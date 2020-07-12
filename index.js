@@ -61,7 +61,7 @@ express()
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT id,amountPaid FROM user_info WHERE refID='+ref);
+		      const result = await client.query('SELECT id,dueAmount FROM user_info WHERE refID='+ref);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
@@ -70,7 +70,7 @@ express()
 		       	//id is null case - first time update
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
-			       		if(result.rows[0].amountPaid != amtpaid){
+			       		if(result.rows[0].dueAmount != amtpaid){
 			       			res.status(400).send("amount-mismatch");
 			       		}
 			       		pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
