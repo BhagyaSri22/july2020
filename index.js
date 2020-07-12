@@ -44,11 +44,7 @@ express()
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
-		       	    //console.log("complete req");
-		       		//console.log(result.rows[0]);
-		       		console.log("onlt transaction");
-		       		console.log(req.body.transaction);
-		      		res.send( req.body.transaction.amountPaid); 	
+		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
 		    } catch (err) {
@@ -59,8 +55,8 @@ express()
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
  	 	    	var ref = req.body.refID;
- 	 	    	var amtPaid =  req.body.transaction.amountPaid;
- 	 	    	var date = req.body.transaction.date;
+ 	 	    	var amtpaid =  req.body.transaction.amountPaid;
+ 	 	    	var paiddate = req.body.transaction.date;
  	 	    	var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
@@ -73,14 +69,22 @@ express()
 		       }else{
 		       	//id is null case - first time update
 			       	if(result.rows[0].id == null){
+			       		//amount mismatch case
+			       		if(result.rows[0].amountPaid != amtpaid){
+			       			res.status(400).send("amount-mismatch");
+			       		}
 			       		pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
-						pool.query("UPDATE user_info SET id ="+ tid+" WHERE refID ="+ref, (err, res) => {
+						pool.query("UPDATE user_info SET date ="+ paiddate+" WHERE refID ="+ref, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
+			       	}
+			       	//id mis match case - provided is diff from already existing
+			       	else if (result.rows[0].id != tid) {
+			       		res.status(404).send("invalid-ref-id");
 			       	}
 			       	result = await client.query('SELECT ackID FROM user_info WHERE refID='+ref);
 		      		results = { 'results': (result) ? result.rows : null};
