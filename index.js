@@ -45,11 +45,11 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		      var str1 = " start ";
 		      var i;
-		      res.send(results.length);
-for (i = 0; i < results.length; i++) {
-  str1.concat(results[i].customername);str1.concat("end");
-}
-		      //results.forEach(function(r) {  str1.concat(r.customername);str1.concat("end");
+		      console.log(result);
+		      console.log("bpbpbpbpbp");
+		      console.log(result);
+		   //   res.send(result.rows[0]);
+	      //results.forEach(function(r) {  str1.concat(r.customername);str1.concat("end");
 		       //});
 		      res.send(str1);
 		      //res.send(req.body.mobileNumber);
