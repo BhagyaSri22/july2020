@@ -44,7 +44,8 @@ express()
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
-		      		res.send( result.rows[0].transaction.amountPaid); 	
+		       		console.log(result.rows[0].transaction);
+		      		res.send( result.rows[0].transaction); 	
 		       }
 		      client.release();
 		    } catch (err) {
