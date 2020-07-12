@@ -47,7 +47,9 @@ express()
 		      var i;
 		      console.log(result);
 		      console.log("bpbpbpbpbp");
-		      console.log(result);
+		      console.log(results.length);
+		      console.log("actual results");
+		      console.log(results);
 		   //   res.send(result.rows[0]);
 	      //results.forEach(function(r) {  str1.concat(r.customername);str1.concat("end");
 		       //});
