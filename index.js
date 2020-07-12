@@ -41,21 +41,18 @@ express()
  	 	    try {
 		      const client = await pool.connect();
 		      //var mn = req.body.mobileNumber.toString();
-		      const result = await client.query('SELECT customername FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
+		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
-		      var str1 = " start ";
-		      var i;
+/*
 		      console.log(result);
 		      console.log("bpbpbpbpbp");
 		      console.log(results.length);
 		      console.log("actual results");
 		      console.log(results);
-		   //   res.send(result.rows[0]);
-	      //results.forEach(function(r) {  str1.concat(r.customername);str1.concat("end");
-		       //});
+*/
 		       var rc = result.rowCount;
 		       if(rc==0) {
-		       		res.send("no rows");
+		       		res.status(404).send("customer-not-found");
 		       }else{
 		      		res.send( result.rows[0]); 	
 		       }
