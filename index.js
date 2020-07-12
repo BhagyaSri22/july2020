@@ -40,10 +40,10 @@ express()
  	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT * FROM user_info WHERE refid='+2);
+		      const result = await client.query('SELECT customername FROM user_info WHERE refid='+2);
 		    //  const results = { 'results': (result) ? result.rows : null};
-		      //res.send(results);
-		      res.send(req.body.mobileNumber);
+		      res.send(result);
+		      //res.send(req.body.mobileNumber);
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
