@@ -37,7 +37,7 @@ express()
   })
   .post('/pb', async(req, res, next)=>{
  		//console.log(req.body);
- 	 	res.send('Posted by bhagya');
+ 	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
 		      const result = await client.query('SELECT * FROM user_info');//WHERE mobileNumber=req.body.mobileNumber
