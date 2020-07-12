@@ -44,11 +44,11 @@ express()
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
-		       	    console.log("complete req");
-		       		console.log(result.rows[0]);
+		       	    //console.log("complete req");
+		       		//console.log(result.rows[0]);
 		       		console.log("onlt transaction");
-		       		console.log(result.rows[0].transaction);
-		      		res.send( result.rows[0].transaction); 	
+		       		console.log(req.transaction);
+		      		res.send( req.transaction.amountPaid); 	
 		       }
 		      client.release();
 		    } catch (err) {
