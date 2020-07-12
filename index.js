@@ -61,32 +61,40 @@ express()
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
 		      const client = await pool.connect();
+		      console.log("bfore first select statement");
 		      const result = await client.query('SELECT id,dueAmount FROM user_info WHERE refID='+req.body.refID);
+		      console.log("after first select statement");
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
+		       console.log("rc");console.log(rc);
 		       if(rc==0) {
 		       		res.status(404).send("invalid-ref-id");
 		       }else{
 		       	//id is null case - first time update
+		       	console.log("main else");
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
 			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
 			       			res.status(400).send("amount-mismatch");
 			       		}
-			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+ref, (err, res) => {
+			       		console.log("bfore first update statement");
+			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
-						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+ref, (err, res) => {
+						console.log("after first update statement");
+						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
 	  					pool.end();
 						});
+						console.log("after second update statement");
 			       	}
 			       	//id mis match case - provided is diff from already existing
 			       	else if (result.rows[0].id != req.body.transaction.id) {
 			       		res.status(404).send("invalid-ref-id");
 			       	}
-			       	result = await client.query('SELECT ackID FROM user_info WHERE refID='+ref);
+			       	console.log("everything done");
+			       	result = await client.query('SELECT ackID FROM user_info WHERE refID='+req.body.refID);
 		      		results = { 'results': (result) ? result.rows : null};
 		      		res.send( result.rows[0]); 	
 		       }
