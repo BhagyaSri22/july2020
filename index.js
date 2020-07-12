@@ -19,7 +19,7 @@ express()
   .get('/', (req, res) => res.render('pages/index'))
   .get('/cool', (req, res) => res.send(cool()))
   .get('/times', (req, res) => res.send(showTimes()))
-  .get('/db', async (req, res) => {
+  .get('/api/v1/db', async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM test_table');
@@ -36,8 +36,6 @@ express()
     }
   })
   .post('/fetch-bill', async(req, res, next)=>{
- 		//console.log(req.body);
- 	 	//res.send('Posted by bhagya');
  	 	    try {
 		      const client = await pool.connect();
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
@@ -54,6 +52,34 @@ express()
 		      res.send("post error " + err);
 		    }
   })
+    .post('/payment-update', async(req, res, next)=>{
+ 	 	    try {
+ 	 	    	var ref = req.body.refID;
+ 	 	    	var amtPaid =  req.body.transaction.amountPaid;
+ 	 	    	var date = req.body.transaction.date;
+ 	 	    	var tid = req.body.transaction.id;
+ 	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
+ 	 	    	//if not null validate it against provided tid . And throw error
+		      const client = await pool.connect();
+		      const result = await client.query('SELECT id FROM user_info WHERE refID='+ref);
+		      const results = { 'results': (result) ? result.rows : null};
+		       var rc = result.rowCount;
+		       if(rc==0) {
+		       		pool.query("UPDATE student SET age = 24 WHERE id = 3", (err, res) => {
+  					console.log(err, res);
+  					pool.end();
+					});
+		       		res.status(404).send("customer-not-found");
+		       }else{
+		      		res.send( result.rows[0]); 	
+		       }
+		      client.release();
+		    } catch (err) {
+		      console.error(err);
+		      res.send("post error " + err);
+		    }
+  })
+
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
   showTimes = () => {
