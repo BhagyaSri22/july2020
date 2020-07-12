@@ -49,7 +49,6 @@ express()
         var columnName = column.metadata.colName;
         jsonData[columnName] = column.value;
         res.send(jsonData);
-        break;
     });
 		      res.send(result);
 		      //res.send(req.body.mobileNumber);
