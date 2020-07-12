@@ -24,14 +24,14 @@ express()
       const client = await pool.connect();
       const result = await client.query('SELECT * FROM test_table');
       const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/db', results );
+       	
       client.release();
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
     }
   })
-  .post('/db', async(req, res, next)=>{
+  .post('/pb', async(req, res, next)=>{
  		//console.log(req.body);
  	 	//res.send('Posted by bhagya');
  	 	    try {
@@ -39,6 +39,10 @@ express()
 		      const result = await client.query('SELECT * FROM user_info');//WHERE mobileNumber=req.body.mobileNumber
 		      const results = { 'results': (result) ? result.rows : null};
 		      res.render('pages/postview', results );
+		      console.log("result");
+		      console.log(result);
+		      console.log("--results");
+		      console.log(results);
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
