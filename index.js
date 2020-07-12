@@ -61,7 +61,7 @@ express()
  	 	    	//var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
- 	 	    	var ids = [ref,"1"]; 
+ 	 	    	var ids = [ref]; 
  	 	    	console.log(ids);
  	 	    	console.log(ids.length);
 //var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
@@ -85,12 +85,12 @@ express()
 			       		console.log("bfore first update statement");
 			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
-	  					pool.end();
+	  					//pool.end();
 						});
 						console.log("after first update statement");
 						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
-	  					pool.end();
+	  					//pool.end();
 						});
 						console.log("after second update statement");
 			       	}
