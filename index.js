@@ -98,7 +98,7 @@ express()
 			       		console.log(typeof tid);
 			       		var re = req.body.refID;
 			       		console.log(typeof re);
-result = await client.query('UPDATE user_info SET id = $1 WHERE refid = ANY($2::text[])',tid,[ids]);
+result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',tid,[ids]);
 			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
 			       		console.log("for the first update");
 	  					console.log(err, res);
