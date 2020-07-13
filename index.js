@@ -94,7 +94,8 @@ express()
 			       			console.log("inside amount mis match");
 			       		}
 			       		console.log("bfore first update statement");
-			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+req.body.refID, (err, res) => {
+			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id+" WHERE refID ="+req.body.refID, (err, res) => {
+			       		console.log("for the first update");
 	  					console.log(err, res);
 	  					//pool.end();
 						});
@@ -102,7 +103,7 @@ express()
 						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
 	  					//pool.end();
-						});*/
+						});
 						console.log("after second update statement");
 			       	}
 			       	//id mis match case - provided is diff from already existing
