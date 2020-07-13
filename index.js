@@ -34,6 +34,10 @@ express()
   .post('/api/v1/fetch-bill', async(req, res, next)=>{
  	 	    try {
 		      const client = await pool.connect();
+		      if(req.body.mobileNumber==null){
+		      	console.log("params case");
+		      	res.status(400).send("invalid-api-parameters");
+		      }
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
