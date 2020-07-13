@@ -86,6 +86,12 @@ express()
 		       		res.status(404).send("invalid-ref-id");
 		        }else{
 		       	//id is null case - first time update	console.log("main else");//console.log(tyeof result.rows[0]);	console.log(result.rows[0]);
+			       	var tid = String(req.body.transaction.id);
+			       	var rtid = result.rows[0].id;
+			       	console.log(typeof rtid);	console.log(rtid);
+			       	console.log("-------");
+			       	console.log(typeof tid);	console.log(tid);
+
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
 			       		//console.log(result.rows[0].dueamount);console.log(result.rows[0].dueamount);console.log(typeof fb);console.log(req.body.transaction.amountPaid);
@@ -95,7 +101,6 @@ express()
 			       			res.status(400).send("amount-mismatch");
 			       			console.log("inside amount mis match");
 			       		}
-			       		var tid = String(req.body.transaction.id);
 			       		result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
 			       		//result = await client.query('UPDATE user_info SET duedate = $1::date WHERE refid = ANY($2::text[])',[null,ids]);
 			       		result = await client.query('UPDATE user_info SET dueamount = $1 WHERE refid = ANY($2::text[])',[0,ids]);
@@ -115,10 +120,7 @@ express()
 			       	}
 			       	//id mis match case - provided is diff from already existing
 			       	//monitor result.rows[0].id carefully
-			       	var rtid = result.rows[0].id;
-			       	console.log(typeof rtid);	console.log(rtid);
-			       	console.log("-------");
-			       	console.log(typeof tid);	console.log(tid);
+			       	
 			       	else if (result.rows[0].id != tid) {
 			       		console.log("invalid ref case");
 			       		res.status(404).send("invalid-ref-id");
