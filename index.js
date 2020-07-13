@@ -77,6 +77,8 @@ express()
 		       }else{
 		       	//id is null case - first time update
 		       	console.log("main else");
+		       	console.log(tyeof result.rows[0]);
+		       	console.log(result.rows[0]);
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
 			       		console.log(result.rows[0].dueAmount);
