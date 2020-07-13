@@ -89,9 +89,9 @@ express()
 			       	var tid = String(req.body.transaction.id);
 			       	var rtid = result.rows[0].id;
 			       	var paiddate = req.body.transaction.date;
-			       	console.log(typeof rtid);	console.log(rtid);
+			       	/*console.log(typeof rtid);	console.log(rtid);
 			       	console.log("-------");
-			       	console.log(typeof tid);	console.log(tid);
+			       	console.log(typeof tid);	console.log(tid);*/
 
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
@@ -101,12 +101,12 @@ express()
 			       		if(x != Number(fb)){
 			       			res.status(400).send("amount-mismatch");
 			       			console.log("inside amount mis match");
+			       		}else{
+			       			result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
+			       			result = await client.query('UPDATE user_info SET duedate = $1 WHERE refid = ANY($2::text[])',[null,ids]);
+			       			result = await client.query('UPDATE user_info SET dueamount = $1 WHERE refid = ANY($2::text[])',[0,ids]);
+							result = await client.query('UPDATE user_info SET date = $1::DATE WHERE refid = ANY($2::text[])',[paiddate,ids]);
 			       		}
-			       		result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
-			       		result = await client.query('UPDATE user_info SET duedate = $1 WHERE refid = ANY($2::text[])',[null,ids]);
-			       		result = await client.query('UPDATE user_info SET dueamount = $1 WHERE refid = ANY($2::text[])',[0,ids]);
-						result = await client.query('UPDATE user_info SET date = $1::DATE WHERE refid = ANY($2::text[])',[paiddate,ids]);
-						console.log("after all update statements");
 			       	}
 			       	//id mis match case - provided is diff from already existing
 			       	//monitor result.rows[0].id carefully
