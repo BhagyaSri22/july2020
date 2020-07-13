@@ -67,9 +67,9 @@ express()
 //var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
 		      const client = await pool.connect();
 		      console.log("bfore first select statement");
-		      const result = await client.query('SELECT id,dueamount FROM user_info WHERE refid = ANY($1::text[])',[ids]);
+		      var result = await client.query('SELECT id,dueamount FROM user_info WHERE refid = ANY($1::text[])',[ids]);
 		      console.log("after first select statement");
-		      const results = { 'results': (result) ? result.rows : null};
+		      var results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       console.log("rc");console.log(rc);
 		       if(rc==0) {
@@ -82,7 +82,9 @@ express()
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
 			       		console.log(result.rows[0].dueamount);
+			       		var x = result.rows[0].dueamount;
 			       		console.log("trying to type cast");
+			       		console.log(typeof x);
 			       		//console.log(result.rows[0].dueamount);
 			       		console.log(req.body.transaction.amountPaid);
 			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
