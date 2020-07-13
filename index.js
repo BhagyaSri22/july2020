@@ -25,10 +25,6 @@ express()
       const result = await client.query('SELECT * FROM test_table');
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
-       	console.log("result");
-		      console.log(result);
-		      console.log("--results");
-		      console.log(results);
       client.release();
     } catch (err) {
       console.error(err);
@@ -38,12 +34,15 @@ express()
   .post('/api/v1/fetch-bill', async(req, res, next)=>{
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT customername,dueAmount,date_trunc('day', dueDate),refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
+		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
 		       		res.status(404).send("customer-not-found");
 		       }else{
+		       		var ts = String(result.rows[0].duedate);
+		       		console.log(typeof ts);console.log(ts);
+		       		result.rows[0].duedate = ts.substring(0,9);
 		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
