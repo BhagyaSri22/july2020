@@ -115,6 +115,10 @@ express()
 			       	}
 			       	//id mis match case - provided is diff from already existing
 			       	//monitor result.rows[0].id carefully
+			       	var rtid = result.rows[0].id;
+			       	console.log(typeof rtid);	console.log(rtid);
+			       	console.log("-------");
+			       	console.log(typeof tid);	console.log(tid);
 			       	else if (result.rows[0].id != tid) {
 			       		console.log("invalid ref case");
 			       		res.status(404).send("invalid-ref-id");
