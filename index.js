@@ -34,7 +34,7 @@ express()
   .post('/api/v1/fetch-bill', async(req, res, next)=>{
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT customername,dueAmount,SELECT EXTRACT(DAY FROM dueDate),refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
+		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
@@ -48,7 +48,7 @@ express()
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.send("post error " + err);
+		      res.status(500).send("unhandled-error");//res.send("post error " + err);
 		    }
   })
   .post('/api/v1/testupdate', async(req, res, next)=>{
