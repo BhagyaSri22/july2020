@@ -61,6 +61,7 @@ express()
 		      const client = await pool.connect();
 		      var result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
 			//result = await client.query('SELECT id FROM user_info WHERE mobileNumber='+req.body.mobileNumber); 
+		      res.send("check db");
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
