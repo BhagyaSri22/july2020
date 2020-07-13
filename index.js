@@ -88,6 +88,7 @@ express()
 		       	//id is null case - first time update	console.log("main else");//console.log(tyeof result.rows[0]);	console.log(result.rows[0]);
 			       	var tid = String(req.body.transaction.id);
 			       	var rtid = result.rows[0].id;
+			       	var paiddate = req.body.transaction.date;
 			       	console.log(typeof rtid);	console.log(rtid);
 			       	console.log("-------");
 			       	console.log(typeof tid);	console.log(tid);
@@ -102,21 +103,10 @@ express()
 			       			console.log("inside amount mis match");
 			       		}
 			       		result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
-			       		//result = await client.query('UPDATE user_info SET duedate = $1::date WHERE refid = ANY($2::text[])',[null,ids]);
+			       		result = await client.query('UPDATE user_info SET duedate = $1 WHERE refid = ANY($2::text[])',[null,ids]);
 			       		result = await client.query('UPDATE user_info SET dueamount = $1 WHERE refid = ANY($2::text[])',[0,ids]);
-//result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',tid,[ids]);
-			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
-			       		console.log("for the first update");
-	  					console.log(err, res);
-	  					//pool.end();
-						});
-						console.log("after first update statement");
-						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+req.body.refID, (err, res) => {
-	  					console.log(err, res);
-	  					//pool.end();
-						});
-						*/
-						console.log("after second update statement");
+						result = await client.query('UPDATE user_info SET date = $1::DATE WHERE refid = ANY($2::text[])',[paiddate,ids]);
+						console.log("after all update statements");
 			       	}
 			       	//id mis match case - provided is diff from already existing
 			       	//monitor result.rows[0].id carefully
