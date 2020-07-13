@@ -52,6 +52,21 @@ express()
 		      res.send("post error " + err);
 		    }
   })
+  .post('/api/v1/testupdate', async(req, res, next)=>{
+ 	 	    try {
+ 	 	     //plan is to take refid as input and set amount = 50
+ 	 	      var ref = String(req.body.refID);
+ 	 	      var ids = [ref]; 
+ 	 	      var tid ="1";
+		      const client = await pool.connect();
+		      var result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
+			//result = await client.query('SELECT id FROM user_info WHERE mobileNumber='+req.body.mobileNumber); 
+		      client.release();
+		    } catch (err) {
+		      console.error(err);
+		      res.send("post error " + err);
+		    }
+  })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
  	 	    	var ref = String(req.body.refID);
