@@ -98,13 +98,13 @@ express()
 			       		console.log(typeof tid);
 			       		var re = req.body.refID;
 			       		console.log(typeof re);
-
-			       		pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
+result = await client.query('UPDATE user_info SET id = $1 WHERE refid = ANY($2::text[])',tid,[ids]);
+			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
 			       		console.log("for the first update");
 	  					console.log(err, res);
 	  					//pool.end();
 						});
-						/*console.log("after first update statement");
+						console.log("after first update statement");
 						pool.query("UPDATE user_info SET date ="+ req.body.transaction.date+" WHERE refID ="+req.body.refID, (err, res) => {
 	  					console.log(err, res);
 	  					//pool.end();
