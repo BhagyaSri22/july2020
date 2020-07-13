@@ -81,7 +81,9 @@ express()
 		       	console.log(result.rows[0]);
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
-			       		console.log(result.rows[0].dueAmount);
+			       		console.log(result.rows[0].dueamount);
+			       		console.log("trying to type cast");
+			       		//console.log(result.rows[0].dueamount);
 			       		console.log(req.body.transaction.amountPaid);
 			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
 			       			res.status(400).send("amount-mismatch");
