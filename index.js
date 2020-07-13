@@ -125,7 +125,9 @@ express()
 		      res.send("post error " + err);
 		    }
   })
-
+.post('*', function(req, res){
+  res.status(404).send("path-not-found");
+})
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
   showTimes = () => {
