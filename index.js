@@ -34,7 +34,7 @@ express()
   .post('/api/v1/fetch-bill', async(req, res, next)=>{
  	 	    try {
 		      const client = await pool.connect();
-		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
+		      const result = await client.query('SELECT customername,dueAmount,SELECT EXTRACT(DAY FROM dueDate),refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
@@ -42,7 +42,7 @@ express()
 		       }else{
 		       		var ts = String(result.rows[0].duedate);
 		       		console.log(typeof ts);console.log(ts);
-		       		result.rows[0].duedate = ts.substring(0,9);
+		       		//result.rows[0].duedate = ts.substring(0,9);
 		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
