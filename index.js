@@ -70,50 +70,35 @@ express()
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
- 	 	    	var ref = String(req.body.refID);
- 	 	    	console.log(typeof ref) ;
+ 	 	    	var ref = String(req.body.refID);//console.log(typeof ref) ;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
  	 	    	//var tid = req.body.transaction.id;
  	 	    	//first get id fro this ref , if null populate it and move on .Populate date 
  	 	    	//if not null validate it against provided tid . And throw error
  	 	    	var ids = [ref]; 
- 	 	    	console.log(ids);
- 	 	    	console.log(ids.length);
-//var q = client.query('SELECT Id FROM MyTable WHERE Id = ANY($1::int[])',[ids]);
-		      const client = await pool.connect();
-		      console.log("bfore first select statement");
-		      var result = await client.query('SELECT id,dueamount FROM user_info WHERE refid = ANY($1::text[])',[ids]);
-		      console.log("after first select statement");
-		      var results = { 'results': (result) ? result.rows : null};
-		       var rc = result.rowCount;
-		       console.log("rc");console.log(rc);
-		       if(rc==0) {
+		        const client = await pool.connect();//console.log("bfore first select statement");
+		        var result = await client.query('SELECT id,dueamount FROM user_info WHERE refid = ANY($1::text[])',[ids]);
+		        var results = { 'results': (result) ? result.rows : null};
+		        var rc = result.rowCount;
+		        console.log("rc");console.log(rc);
+		        if(rc==0) {
 		       		res.status(404).send("invalid-ref-id");
-		       }else{
-		       	//id is null case - first time update
-		       	console.log("main else");
-		       	//console.log(tyeof result.rows[0]);
-		       	console.log(result.rows[0]);
+		        }else{
+		       	//id is null case - first time update	console.log("main else");//console.log(tyeof result.rows[0]);	console.log(result.rows[0]);
 			       	if(result.rows[0].id == null){
 			       		//amount mismatch case
-			       		console.log(result.rows[0].dueamount);
+			       		//console.log(result.rows[0].dueamount);console.log(result.rows[0].dueamount);console.log(typeof fb);console.log(req.body.transaction.amountPaid);
 			       		var x = result.rows[0].dueamount;
-			       		console.log("trying to type cast");
-			       		console.log(typeof x);
 			       		var fb = req.body.transaction.amountPaid;
-			       		console.log(typeof fb);
-			       		//console.log(result.rows[0].dueamount);
-			       		console.log(req.body.transaction.amountPaid);
 			       		if(x != Number(fb)){
 			       			res.status(400).send("amount-mismatch");
 			       			console.log("inside amount mis match");
 			       		}
-			       		console.log("bfore first update statement");
-			       		var tid = req.body.transaction.id;
-			       		console.log(typeof tid);
-			       		var re = req.body.refID;
-			       		console.log(typeof re);
+			       		var tid = String(req.body.transaction.id);
+			       		result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
+			       		result = await client.query('UPDATE user_info SET duedate = $1::text WHERE refid = ANY($2::text[])',[null,ids]);
+			       		result = await client.query('UPDATE user_info SET dueamount = $1::text WHERE refid = ANY($2::text[])',[0,ids]);
 //result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',tid,[ids]);
 			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
 			       		console.log("for the first update");
@@ -129,13 +114,13 @@ express()
 						console.log("after second update statement");
 			       	}
 			       	//id mis match case - provided is diff from already existing
-			       	else if (result.rows[0].id != req.body.transaction.id) {
+			       	//monitor result.rows[0].id carefully
+			       	else if (result.rows[0].id != tid) {
+			       		console.log("invalid ref case");
 			       		res.status(404).send("invalid-ref-id");
 			       	}
 			       	console.log("everything done");
 			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
-			       	//await client.query('SELECT ackID FROM user_info WHERE refID='+req.body.refID);
-		      		results = { 'results': (result) ? result.rows : null};
 		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
