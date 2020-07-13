@@ -97,8 +97,8 @@ express()
 			       		}
 			       		var tid = String(req.body.transaction.id);
 			       		result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
-			       		result = await client.query('UPDATE user_info SET duedate = $1::text WHERE refid = ANY($2::text[])',[null,ids]);
-			       		result = await client.query('UPDATE user_info SET dueamount = $1::text WHERE refid = ANY($2::text[])',[0,ids]);
+			       		//result = await client.query('UPDATE user_info SET duedate = $1::date WHERE refid = ANY($2::text[])',[null,ids]);
+			       		result = await client.query('UPDATE user_info SET dueamount = $1 WHERE refid = ANY($2::text[])',[0,ids]);
 //result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',tid,[ids]);
 			       		/*pool.query("UPDATE user_info SET id ="+ req.body.transaction.id, (err, res) => {
 			       		console.log("for the first update");
