@@ -65,7 +65,7 @@ express()
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.send("post error " + err);
+		      res.status(500).send("unhandled-error");
 		    }
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
@@ -116,13 +116,13 @@ express()
 			       		res.status(404).send("invalid-ref-id");
 			       	}
 			       	console.log("everything done");
-			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
+			       	result =  await client.query('SELECT ackID bp FROM user_info WHERE refid = ANY($1::text[])',[ids]);
 		      		res.send( result.rows[0]); 	
 		       }
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.send("post error " + err);
+		      res.status(500).send("unhandled-error");
 		    }
   })
 .post('*', function(req, res){
