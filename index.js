@@ -78,6 +78,7 @@ express()
  	 	    	if(req.body.refID==null ||req.body.transaction.id==null || req.body.transaction.amountPaid==null||req.body.transaction.date==null){
 		      		console.log("params case");
 		      		res.status(400).send("invalid-api-parameters");
+		      		throw new Error('something bad happened');
 		      	}
  	 	    	var ref = String(req.body.refID);//console.log(typeof ref) ;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
