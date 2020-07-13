@@ -85,6 +85,8 @@ express()
 			       		var x = result.rows[0].dueamount;
 			       		console.log("trying to type cast");
 			       		console.log(typeof x);
+			       		var fb = req.body.transaction.amountPaid;
+			       		console.log(typeof fb);
 			       		//console.log(result.rows[0].dueamount);
 			       		console.log(req.body.transaction.amountPaid);
 			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
