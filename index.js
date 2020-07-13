@@ -89,7 +89,7 @@ express()
 			       		console.log(typeof fb);
 			       		//console.log(result.rows[0].dueamount);
 			       		console.log(req.body.transaction.amountPaid);
-			       		if(result.rows[0].dueAmount != req.body.transaction.amountPaid){
+			       		if(x != Number(fb)){
 			       			res.status(400).send("amount-mismatch");
 			       			console.log("inside amount mis match");
 			       		}
