@@ -37,7 +37,10 @@ express()
 		      if(req.body.mobileNumber==null){
 		      	console.log("params case");
 		      	res.status(400).send("invalid-api-parameters");
+		      	return;
+		      	console.log("after return case");
 		      }
+		      console.log("after return casexx");
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
@@ -73,6 +76,10 @@ express()
   })
     .post('/api/v1/payment-update', async(req, res, next)=>{
  	 	    try {
+ 	 	    	if(req.body.refID==null ||req.body.transaction.id==null || req.body.transaction.amountPaid==null||req.body.transaction.date==null){
+		      		console.log("params case");
+		      		res.status(400).send("invalid-api-parameters");
+		      	}
  	 	    	var ref = String(req.body.refID);//console.log(typeof ref) ;
  	 	    	//int amtpaid =  req.body.transaction.amountPaid;
  	 	    	//var paiddate = req.body.transaction.date;
