@@ -37,8 +37,7 @@ express()
 		      if(req.body.mobileNumber==null){
 		      	console.log("params case");
 		      	res.status(400).send("invalid-api-parameters");
-		      	return;
-		      	console.log("after return case");
+		      	throw new Error('something bad happened');
 		      }
 		      console.log("after return casexx");
 		      const result = await client.query('SELECT customername,dueAmount,dueDate,refID FROM user_info WHERE mobileNumber='+req.body.mobileNumber);
