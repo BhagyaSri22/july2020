@@ -51,8 +51,8 @@ express()
 		       		var ts = String(result.rows[0].duedate);
 		       		console.log(typeof ts);console.log(ts);
 		       		//result.rows[0].duedate = ts.substring(0,9);
-		       		var JSONObj =  {"status": "SUCCESS",result.rows[0]};
-		      		res.send( JSONObj); 	
+		       		var JSONObj =  {"status": "SUCCESS","data": result.rows[0]};
+		      		res.send(JSONObj);//res.send( result.rows[0]); 	
 		       }
 		      client.release();
 		    } catch (err) {
