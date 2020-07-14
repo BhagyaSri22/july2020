@@ -36,7 +36,8 @@ express()
 		      const client = await pool.connect();
 		      if(req.body.mobileNumber==null){
 		      	console.log("params case");
-		      	res.status(400).send("invalid-api-parameters");
+		      	var JSONObj = { "status": "ERROR", "errorCode": "invalid-api-parameters" };
+		      	res.status(400).send(JSONObj);
 		      	throw new Error('something bad happened');
 		      }
 		      console.log("after return casexx");
@@ -44,17 +45,20 @@ express()
 		      const results = { 'results': (result) ? result.rows : null};
 		       var rc = result.rowCount;
 		       if(rc==0) {
-		       		res.status(404).send("customer-not-found");
+		       		var JSONObj = { "status": "ERROR", "errorCode": "customer-not-found" };
+		      		res.status(404).send(JSONObj);
 		       }else{
 		       		var ts = String(result.rows[0].duedate);
 		       		console.log(typeof ts);console.log(ts);
 		       		//result.rows[0].duedate = ts.substring(0,9);
-		      		res.send( result.rows[0]); 	
+		       		var JSONObj =  {"status": "SUCCESS",result.rows[0]};
+		      		res.send( JSONObj); 	
 		       }
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.status(500).send("unhandled-error");//res.send("post error " + err);
+		      var JSONObj = { "status": "ERROR", "errorCode": "unhandled-error" };
+		      res.status(500).send(JSONObj);
 		    }
   })
   .post('/api/v1/testupdate', async(req, res, next)=>{
@@ -94,7 +98,8 @@ express()
 		        var rc = result.rowCount;
 		        console.log("rc");console.log(rc);
 		        if(rc==0) {
-		       		res.status(404).send("invalid-ref-id");
+		        	var JSONObj = { "status": "ERROR", "errorCode": "invalid-ref-id" };
+		      		res.status(404).send(JSONObj);
 		        }else{
 		       	//id is null case - first time update	console.log("main else");//console.log(tyeof result.rows[0]);	console.log(result.rows[0]);
 			       	var tid = String(req.body.transaction.id);
@@ -110,7 +115,9 @@ express()
 			       		var x = result.rows[0].dueamount;
 			       		var fb = req.body.transaction.amountPaid;
 			       		if(x != Number(fb)){
-			       			res.status(400).send("amount-mismatch");
+			       			var JSONObj = { "status": "ERROR", "errorCode": "amount-mismatch" };
+		      				res.status(400).send(JSONObj);
+			       			//res.status(400).send("amount-mismatch");
 			       			console.log("inside amount mis match");
 			       		}else{
 			       			result = await client.query('UPDATE user_info SET id = $1::text WHERE refid = ANY($2::text[])',[tid,ids]);
@@ -124,7 +131,8 @@ express()
 			       	
 			       	else if (result.rows[0].id != tid) {
 			       		console.log("invalid ref case");
-			       		res.status(404).send("invalid-ref-id");
+			       		var JSONObj = { "status": "ERROR", "errorCode": "invalid-ref-id" };
+		      			res.status(404).send(JSONObj);
 			       	}
 			       	console.log("everything done");
 			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
@@ -133,11 +141,13 @@ express()
 		      client.release();
 		    } catch (err) {
 		      console.error(err);
-		      res.status(500).send("unhandled-error");
+		      var JSONObj = { "status": "ERROR", "errorCode": "unhandled-error" };
+		      res.status(500).send(JSONObj);
 		    }
   })
 .post('*', function(req, res){
-  res.status(404).send("path-not-found");
+	var JSONObj = { "status": "ERROR", "errorCode": "path-not-found" };
+	res.status(404).send(JSONObj);
 })
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
