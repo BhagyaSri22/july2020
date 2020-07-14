@@ -135,7 +135,8 @@ express()
 			       	}
 			       	console.log("everything done");
 			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
-			       	var JSONObj =  {"status": "SUCCESS","data": result.rows[0]};
+			       	var JSONObj = { "ackid": String(result.rows[0].ackid) }
+			       	JSONObj = {"status": "SUCCESS","data": JSONObj};
 		      		res.send(JSONObj);
 		      		//res.send( result.rows[0]); 	
 		       }
