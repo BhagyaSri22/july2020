@@ -50,7 +50,6 @@ express()
 		       }else{
 		       		var ts = String(result.rows[0].duedate);
 		       		console.log(typeof ts);console.log(ts);
-		       		//result.rows[0].duedate = ts.substring(0,9);
 		       		var JSONObj =  {"status": "SUCCESS","data": result.rows[0]};
 		      		res.send(JSONObj);//res.send( result.rows[0]); 	
 		       }
@@ -136,7 +135,9 @@ express()
 			       	}
 			       	console.log("everything done");
 			       	result =  await client.query('SELECT ackID FROM user_info WHERE refid = ANY($1::text[])',[ids]);
-		      		res.send( result.rows[0]); 	
+			       	var JSONObj =  {"status": "SUCCESS","data": result.rows[0]};
+		      		res.send(JSONObj);
+		      		//res.send( result.rows[0]); 	
 		       }
 		      client.release();
 		    } catch (err) {
